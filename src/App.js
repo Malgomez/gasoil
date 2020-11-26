@@ -1,11 +1,17 @@
 import './App.css';
-import Prueba from'./components/Prueba/Prueba'
+import Login from './components/pages/Login';
+import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import Menu from './components/pages/Menu';
+
 
 function App() {
   return (
-    <div className="App">
-      <Prueba />
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path = "/" component={Login}/>
+        <Route exact path = "/menu" component={Menu}/>
+      </Switch>
+    </BrowserRouter>
   );
 }
 
