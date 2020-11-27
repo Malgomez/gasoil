@@ -1,6 +1,47 @@
 import React from 'react';
 import '../css/Login.css';
+import logo from '../imagenes/persax.png';
+import Image from 'react-image-resizer';
+import { Apiurl } from '../services/apirest';
+import axios from 'axios';
+
 class Login extends React.Component {
+
+    state = {
+        form: {
+            "usuario": '',
+            "password": ''
+        },
+        error: false,
+        errorMsh: ''
+    }
+    handleSubmit = e => {
+        e.preventDefault();
+    }
+
+    handleOnChange = async e => {
+        await this.setState({
+            form: {
+                ...this.state.form,
+                [e.target.name]: e.target.value,
+                [e.target.password]: e.target.value
+            }
+        })
+    }
+
+    handleOnClick = () => {
+        let url = Apiurl + "/users/login";
+        let body = {
+            usuario: this.state.form.usuario,
+            password: this.state.form.password,
+        }
+        axios.post(url, body)
+            .then((response) => {
+                window.location.href = "/menu"
+            }, (error) => {
+                console.log(error);
+            });
+    }
 
     render() {
         return (
@@ -8,12 +49,12 @@ class Login extends React.Component {
                 <div className="wrapper fadeInDown">
                     <div id="formContent">
                         <div className="fadeIn first">
-                            <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon"/>
+                            <Image src={logo} width={440} height={300} />
                         </div>
-                        <form>
-                            <input type="text" id="login" className="fadeIn second" name="login" placeholder="login"/>
-                            <input type="text" id="password" className="fadeIn third" name="login" placeholder="password"/>
-                            <input type="submit" className="fadein fourth" value="Log In"/>
+                        <form onSubmit={this.handleSubmit}>
+                            <input type="text" className="fadeIn second" name="usuario" placeholder="Usuario" onChange={this.handleOnChange} />
+                            <input type="password" className="fadeIn third" name="password" placeholder="Password" onChange={this.handleOnChange} />
+                            <input type="submit" className="fadein fourth" value="Log In" onClick={this.handleOnClick} />
                         </form>
 
                         <div id="formFooter">
