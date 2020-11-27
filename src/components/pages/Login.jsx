@@ -1,83 +1,27 @@
-import React, { Component } from 'react';
-import '../css/persax.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import axios from 'axios';
-import md5 from 'md5';
-import Cookies from 'universal-cookie';
- 
-const cookies = new Cookies();
+import React from 'react';
+import '../css/Login.css';
+class Login extends React.Component {
 
-class Login extends Component {
-    state={
-        form:{
-            username: '',
-            password: ''
-        }
-    }
-
-    handleChange = async e => {
-        await this.setState({
-            form:{
-                ...this.state.form,
-                [e.target.name]: e.target.value
-            }
-        });
-    } 
-
-    iniciarSesion = async ()=> {
-        await axios.get(baseUrl, {params: {username: this.state.form.username, password: md5(this.state.form.password)}})
-        .then(response=>{
-            return response.data;
-        })
-        .then(response=>{
-            if(response.length>0){
-                var respuesta = response[0];
-                cookies.set('id', respuesta.id, {path: "/"});
-                cookies.set('primer_apellido', respuesta.primer_apellido, {path: "/"});
-                cookies.set('segundo_apellido', respuesta.segundo_apellido, {path: "/"});
-                cookies.set('nombre', respuesta.nombre, {path: "/"})
-                cookies.set('username', respuesta.username, {path: "/"})
-                alert(`Bienvenid@ ${respuesta.nombre} ${respuesta.primer_apellido} ${respuesta.segundo_apellido}`);
-                window.location.href="./menu";
-            }else{
-                alert('El usuario o la contraseña no es correcta');
-            }
-        })
-        .catch(error=>{
-            console.log(error);
-        })
-    }
-
-    componentDidMount(){
-        if(cookies.get('username')){
-            window.location.href="./menu";
-        }
-    }
     render() {
         return (
-            <div className="containerPrincipal"> 
-                <div className="containerSecundario">
-                    <div className="form-group">
-                        <label>Usuario: </label>
-                        <br />
-                        <input
-                            type="text"
-                            className="form-control"
-                            name="username"
-                            onChange={this.handleChange}
-                        />
-                        <br />
-                        <input
-                            type="password"
-                            className="form-control"
-                            name="password"
-                            onChange={this.handleChange}
-                        />
-                        <br />
-                        <button className="btn btn-primary" onClick={()=> this.iniciarSesion()}>Iniciar Sesion</button>
+            <React.Fragment>
+                <div className="wrapper fadeInDown">
+                    <div id="formContent">
+                        <div className="fadeIn first">
+                            <img src="http://danielzawadzki.com/codepen/01/icon.svg" id="icon" alt="User Icon"/>
+                        </div>
+                        <form>
+                            <input type="text" id="login" className="fadeIn second" name="login" placeholder="login"/>
+                            <input type="text" id="password" className="fadeIn third" name="login" placeholder="password"/>
+                            <input type="submit" className="fadein fourth" value="Log In"/>
+                        </form>
+
+                        <div id="formFooter">
+                            <a className="underLineHover" href="#">Forgot Password?</a>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </React.Fragment>
         );
     }
 }
