@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState}from 'react';
 import '../css/Login.css';
 import logo from '../imagenes/persax.png';
 import Image from 'react-image-resizer';
@@ -37,6 +37,10 @@ class Login extends React.Component {
         }
         axios.post(url, body)
             .then((response) => {
+                const [logueado, modificaLogueado] = useState(null);
+                const [nombreUsuario, ModificaNombreUsuario] = useState(null);
+                modificaLogueado = true;
+                ModificaNombreUsuario = this.state.form.nombreUsuario;
                 window.location.href = "/menu"
             }, (error) => {
                 console.log(error);

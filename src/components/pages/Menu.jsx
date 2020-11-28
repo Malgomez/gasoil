@@ -6,11 +6,13 @@ const cookies=new Cookies();
 
 class Menu extends Component {
     cerrarSesion=()=>{
+        const UsuarioLogueado = (props) => {props.logueado};
+        const NombreUsuario = (props) => {props.nombreUsuario};
+        console.log(props);
         window.location.href='./';
     }
 
     componentDidMount(){
-        
     }
     render() {
         return (
