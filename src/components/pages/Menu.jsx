@@ -1,6 +1,7 @@
-import React, { Component, useState } from 'react';
+import React from 'react';
 import { Auth } from "../../objects/Auth";
-// import HeaderLogin from './HeaderLogin';
+import HeaderLogin from './HeaderLogin';
+import { Component } from "react";
 
 
 class Menu extends Component {
@@ -17,15 +18,11 @@ class Menu extends Component {
   }
 
   componentDidMount() {
-    const user = this.context
-    console.log(user)
-    //const userName = useUserLogin.userNameLogin;
   }
   render() {
-    const nombre = useState[0];
     return (
         <>
-          <h1>Hi I'm Osman and this is my album of the week:</h1>
+          <HeaderLogin/>
         </>
     )
   }

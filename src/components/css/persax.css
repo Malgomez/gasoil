@@ -6,6 +6,10 @@
     left: 10px;
 }
 
+.imgPersaxLogin {
+    width: 50%;
+}
+
 .containerPrincipal {
     position: absolute;
     left: 50%;
@@ -19,4 +23,15 @@
 
 .containerSecundario {
     text-align: center;
+}
+
+.buttonHeaderLeft {
+    position: relative;
+    margin-left: 50px;
+    margin-top: 20px;
+}
+.buttonHeader {
+    position: relative;
+    margin-left: 50px;
+    margin-top: 20px;
 }

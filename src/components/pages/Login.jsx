@@ -1,20 +1,13 @@
-import React, {createContext, useState} from 'react';
+import React from 'react';
 import '../css/Login.css';
-import logo from '../imagenes/persax.png';
-import Image from 'react-image-resizer';
+import imagenes from '../imagenes';
+import Image from 'react-bootstrap/Image';
 import { Apiurl } from '../services/apirest';
 import axios from 'axios';
-import LoggedUserContext from '../services/useUserLogin';
-import Menu from './Menu';
 import { Auth } from "../../objects/Auth";
 import history from "../../routing/history";
 
-
 class Login extends React.Component {
-    //history = useHistory();
-    constructor(props) {
-        super(props);
-    }
     state = {
         form: {
             "usuario": '',
@@ -22,9 +15,10 @@ class Login extends React.Component {
         },
         error: false,
         errorMsh: '',
-        token: ''
+        token: '',
+        username: '',
+        alert: '',
     }
-
     handleSubmit = e => {
         e.preventDefault();
     }
@@ -48,38 +42,34 @@ class Login extends React.Component {
         axios.post(url, body)
             .then((response) => {
                 this.setState({ token: response.data.token }, ()=> {
-                    console.log(this.state.token)
-                    Auth.auth = new Auth(this.state.token)
-                    history.push("/menu")
+                    Auth.auth = new Auth(this.state.token, this.state.username);
+                    history.push("/menu");
                 });
             }, (error) => {
-                console.log("Error: ")
-                console.log(error);
+                console.log("credenciales");
+                this.setState({alert: "Credenciales Erroneas"});
+                window.location.href = './';
             });
     }
 
     render() {
         return (
             <React.Fragment>
-                <LoggedUserContext.Provider value={this.state.token}>
-                    <div className="wrapper fadeInDown">
-                        <div id="formContent">
-                            <div className="fadeIn first">
-                                <Image src={logo} width={440} height={300} />
-                            </div>
-                            <form onSubmit={this.handleSubmit}>
-                                <input type="text" className="fadeIn second" name="usuario" placeholder="Usuario" onChange={this.handleOnChange} />
-                                <input type="password" className="fadeIn third" name="password" placeholder="Password" onChange={this.handleOnChange} />
-                                <input type="submit" className="fadein fourth" value="Log In" onClick={this.handleOnClick} />
-                            </form>
-
-                            <div id="formFooter">
-                                <a className="underLineHover" href="#">Forgot Password?</a>
-                            </div>
+                <div className="wrapper fadeInDown">
+                    <div id="formContent">
+                        <div className="fadeIn first">
+                            <Image src={imagenes.persax} className="imgPersaxLogin" />
                         </div>
+                        <form onSubmit={this.handleSubmit}>
+                            <input type="text" className="fadeIn second" name="usuario" placeholder="Usuario" onChange={this.handleOnChange} />
+                            <input type="password" className="fadeIn third" name="password" placeholder="Password" onChange={this.handleOnChange} />
+                            <input type="submit" className="fadein fourth" value="Log In" onClick={this.handleOnClick} />
+                            <br></br>
+                            <h2>{this.alert}</h2>
+                            <h2>hola</h2>
+                        </form>
                     </div>
-                    {/* <Menu /> */}
-                </LoggedUserContext.Provider>
+                </div>
             </React.Fragment>
         );
     }

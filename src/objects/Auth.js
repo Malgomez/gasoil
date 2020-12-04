@@ -1,13 +1,18 @@
 export class Auth {
-    token = "";
+    token = ""
+    username = "";
 
     static auth = new Auth("");
 
-    constructor(_token){
+    constructor(_token, _username){
         this.token = _token;
+        this.username = _username;
     }
 
     getToken(){
         return this.token;
+    }
+    getUsername(){
+        return this.username;
     }
 }
