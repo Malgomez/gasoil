@@ -1,17 +1,23 @@
 import './App.css';
 import Login from './components/pages/Login';
-import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import {Router, Switch, Route} from 'react-router-dom';
 import Menu from './components/pages/Menu';
+import history from "./routing/history";
 
 
 function App() {
   return (
-    <BrowserRouter>
-      <Switch>
-        <Route exact path = "/" component={Login}/>
-        <Route exact path = "/menu" component={Menu}/>
-      </Switch>
-    </BrowserRouter>
+    <>
+      {/* <Login /> */}
+      {/* <LoggedUserContext.Provider value={token}> */}
+        <Router history={history}>
+          <Switch>
+            <Route exact path = "/" component={Login}/>
+            <Route exact path = "/menu" component={Menu}/>
+          </Switch>
+        </Router>
+      {/* </LoggedUserContext.Provider> */}
+    </>
   );
 }
 

@@ -1,28 +1,34 @@
-import React, { Component } from 'react';
-import Cookies from 'universal-cookie';
-import HeaderLogin from './HeaderLogin';
+import React, { Component, useState } from 'react';
+import { Auth } from "../../objects/Auth";
+// import HeaderLogin from './HeaderLogin';
 
-const cookies=new Cookies();
 
 class Menu extends Component {
-    cerrarSesion=()=>{
-        const UsuarioLogueado = (props) => {props.logueado};
-        const NombreUsuario = (props) => {props.nombreUsuario};
-        console.log(props);
-        window.location.href='./';
+  constructor(props){
+    super(props)
+    if(Auth.auth.getToken() !== ""){
+      console.log(Auth.auth.getToken())
+    }else{
+      window.location.href = './';
     }
+  }
+  cerrarSesion = () => {
+    window.location.href = './';
+  }
 
-    componentDidMount(){
-    }
-    render() {
-        return (
-            <div>
-                <HeaderLogin />
-                <br />
-                <button onClick={()=>this.cerrarSesion()}>Cerrar Sesión</button>
-            </div>
-        );
-    }
+  componentDidMount() {
+    const user = this.context
+    console.log(user)
+    //const userName = useUserLogin.userNameLogin;
+  }
+  render() {
+    const nombre = useState[0];
+    return (
+        <>
+          <h1>Hi I'm Osman and this is my album of the week:</h1>
+        </>
+    )
+  }
 }
 
 export default Menu;
