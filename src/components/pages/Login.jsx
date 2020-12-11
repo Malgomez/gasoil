@@ -17,7 +17,6 @@ class Login extends React.Component {
         errorMsh: '',
         token: '',
         username: '',
-        erroneas: '',
     }
     handleSubmit = e => {
         e.preventDefault();
@@ -47,13 +46,11 @@ class Login extends React.Component {
                 });
             }, (error) => {
                 console.log("credenciales");
-                this.setState({erroneas: 'Credenciales Erroneas'});
                 window.location.href = './';
             });
     }
 
     render() {
-        const eeroneas = this.props.erroneas;
         return (
             <React.Fragment>
                 <div className="wrapper fadeInDown">
@@ -65,7 +62,6 @@ class Login extends React.Component {
                             <input type="text" className="fadeIn second" name="usuario" placeholder="Usuario" onChange={this.handleOnChange} />
                             <input type="password" className="fadeIn third" name="password" placeholder="Password" onChange={this.handleOnChange} />
                             <input type="submit" className="fadein fourth" value="Log In" onClick={this.handleOnClick} />
-                            <h2>{this.erroneas}</h2>
                         </form>
                     </div>
                 </div>
