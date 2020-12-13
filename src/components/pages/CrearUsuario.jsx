@@ -1,7 +1,6 @@
 import React from 'react';
 import { Auth } from "../../objects/Auth";
 import HeaderLogin from './HeaderLogin';
-import { Component } from "react";
 import { Apiurl } from '../services/apirest';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -15,11 +14,8 @@ class CrearUsuario extends React.Component {
             error: null,
             nombreUsuario: [],
             usuario: "",
-            password: ""
-            // form: {
-            //     usuario: '',
-            //     password: ''
-            // }
+            password: "",
+            permiso: ""
         }
         if (Auth.auth.getToken() !== "") {
             console.log(Auth.auth.getToken());
@@ -33,16 +29,6 @@ class CrearUsuario extends React.Component {
         e.preventDefault();
     }
 
-    // handleOnChange = async e => {
-    //     await this.setState({
-    //         ...this.state.form,
-    //         [e.target.name]: e.target.value,
-    //         [e.target.password]: e.target.value
-    //     }, () => {
-    //         console.log(this.state)
-    //     })
-    // }
-
     async componentDidMount() {
         let url = Apiurl + "/users/all";
         console.log(url);
@@ -50,18 +36,15 @@ class CrearUsuario extends React.Component {
         console.log(url)
         await axios.get(url)
             .then((response) => {
-                //console.log(response)
                 let users = [];
                 response.data.forEach(element => {
-                    users.push({ nombre: element.usuario, contrasenya: element.password });
+                    users.push({ nombre: element.usuario, permiso: element.permiso });
                 })
                 this.setState({ nombreUsuario: users });
-                //status = response.status;
             })
             .catch(function (error) {
                 console.log(error);
             });
-        //console.log(body);
     }
 
     handleOnClick = () => {
@@ -69,6 +52,7 @@ class CrearUsuario extends React.Component {
         let body = {
             usuario: this.state.usuario,
             password: this.state.password,
+            permiso: this.state.permiso,
         }
         axios.post(url, body).then(async (response) => {
             url = Apiurl + "/users/all";
@@ -77,9 +61,9 @@ class CrearUsuario extends React.Component {
                     //console.log(response)
                     let users = [];
                     response.data.forEach(element => {
-                        users.push({ nombre: element.usuario, contrasenya: element.password });
+                        users.push({ nombre: element.usuario, permiso: element.permiso });
                     })
-                    this.setState({ nombreUsuario: users, usuario: null, password: null });
+                    this.setState({ nombreUsuario: users, usuario: null, permiso: null });
                     //status = response.status;
                 })
                 .catch(function (error) {
@@ -90,7 +74,7 @@ class CrearUsuario extends React.Component {
         });
     }
     render() {
-        const { error, nombreUsuario } = this.state;
+        const { error } = this.state;
         if (error) {
             return <div>Error: {error.message}</div>;
         }
@@ -100,25 +84,12 @@ class CrearUsuario extends React.Component {
                 <React.Fragment>
 
                     <div className='table-responsive'>
-                        {/* <table className="table table-stripe">
-                            <thead>
-                                <th>Id</th>
-                                <th>Nombre</th>
-                            </thead>
-                            <tbody>
-                                {this.state.nombreUsuario.map(item => (
-                                    <tr>
-                                        <td>{item}</td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table> */}
                         <table className="table table-stripe">
                             <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>Nombre</th>
-                                    <th>Contrasena</th>
+                                    <th>Permiso</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -126,7 +97,7 @@ class CrearUsuario extends React.Component {
                                     <tr key={index}>
                                         <td>{index + 1}</td>
                                         <td>{item.nombre}</td>
-                                        <td>{item.contrasenya}</td>
+                                        <td>{item.permiso}</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -139,6 +110,9 @@ class CrearUsuario extends React.Component {
                             }} />
                             <input type="password" name="password" placeholder="Password" onChange={(e) => {
                                 this.setState({ password: e.target.value });
+                            }} />
+                            <input type="text" name="permiso" placeholder="Permiso" onChange={(e) => {
+                                this.setState({permiso: e.target.value});
                             }} />
                             <input type="submit" className='buttonCenter' value="Crear" onClick={this.handleOnClick} />
                         </form>

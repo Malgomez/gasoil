@@ -9,8 +9,13 @@ import history from "../../routing/history";
 class Menu extends Component {
   constructor(props){
     super(props)
+    this.state = {
+      permiso: false,
+    }
     if(Auth.auth.getToken() !== ""){
       console.log(Auth.auth.getToken())
+      console.log(Auth.auth.getPermiso())
+      console.log(Auth.auth.getUsername())
     }else{
       window.location.href = './';
     }
@@ -29,7 +34,9 @@ class Menu extends Component {
     return (
         <>
           <HeaderLogin/>
-          <Button variant="primary" className="buttonHeaderLeft" onClick={this.handleCreateUserOnClick}>Crear Usuario</Button>{' '}
+          if(user) {
+            <Button variant="primary" className="buttonHeaderLeft" onClick={this.handleCreateUserOnClick}>Crear Usuario</Button>
+          }
           <Button variant="primary" className="buttonHeader">Importar CSV</Button>{' '}
           <Button variant="primary" className="buttonHeader">Exportar CSV</Button>{' '}
         </>
