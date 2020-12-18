@@ -41,7 +41,9 @@ class Login extends React.Component {
         axios.post(url, body)
             .then((response) => {
                 this.setState({ token: response.data.token }, ()=> {
-                    Auth.auth = new Auth(this.state.token, this.state.username);
+                    Auth.auth = new Auth(this.state.token, response.data.usuario, response.data.permiso);
+                    console.log(response.data.usuario);
+                    console.log(response.data.permiso);
                     history.push("/menu");
                 });
             }, (error) => {

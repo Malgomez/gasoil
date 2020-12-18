@@ -4,7 +4,8 @@ import HeaderLogin from './HeaderLogin';
 import { Apiurl } from '../services/apirest';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../css/persax.css'
+import '../css/persax.css';
+import history from "../../routing/history";
 
 class CrearUsuario extends React.Component {
 
@@ -46,7 +47,9 @@ class CrearUsuario extends React.Component {
                 console.log(error);
             });
     }
-
+    handleMenuOnClick = () => {
+        history.push("/menu");
+    }
     handleOnClick = () => {
         let url = Apiurl + "/users";
         let body = {
@@ -114,7 +117,10 @@ class CrearUsuario extends React.Component {
                             <input type="text" name="permiso" placeholder="Permiso" onChange={(e) => {
                                 this.setState({permiso: e.target.value});
                             }} />
-                            <input type="submit" className='buttonCenter' value="Crear" onClick={this.handleOnClick} />
+                            <div>
+                                <input type="submit" className='buttonCenter' value="Crear" onClick={this.handleOnClick} />
+                                <input type="submit" className='buttonCenter' value="Menu" onClick={this.handleMenuOnClick}/>
+                            </div>
                         </form>
                     </div>
                 </React.Fragment>

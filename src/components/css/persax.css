@@ -39,3 +39,9 @@
 .buttonCenter {
     text-align: center;
 }
+
+.textRight {
+    text-align: right;
+    margin-right: 50px;
+    top: 1%;
+}

@@ -8,10 +8,7 @@ import history from "../../routing/history";
 
 class Menu extends Component {
   constructor(props){
-    super(props)
-    this.state = {
-      permiso: false,
-    }
+    super(props);
     if(Auth.auth.getToken() !== ""){
       console.log(Auth.auth.getToken())
       console.log(Auth.auth.getPermiso())
@@ -24,20 +21,26 @@ class Menu extends Component {
     window.location.href = './';
   }
 
-  handleCreateUserOnClick = () => {
-      history.push("/crearUsuario");
+  componentDidMount() {
   }
 
-  componentDidMount() {
+  handleCreateUserOnClick = () => {
+    history.push("/crearUsuario");
+  }
+
+  handleImportarOnClick = () => {
+    history.push("/importarCsv");
   }
   render() {
     return (
         <>
           <HeaderLogin/>
-          if(user) {
-            <Button variant="primary" className="buttonHeaderLeft" onClick={this.handleCreateUserOnClick}>Crear Usuario</Button>
+          {
+            Auth.auth.getPermiso() === "administrador" ?
+              <Button variant="primary" className="buttonHeaderLeft" onClick={this.handleCreateUserOnClick}>Crear Usuario</Button>
+            : null
           }
-          <Button variant="primary" className="buttonHeader">Importar CSV</Button>{' '}
+          <Button variant="primary" className="buttonHeader" onClick={this.handleImportarOnClick}>Importar CSV</Button>{' '}
           <Button variant="primary" className="buttonHeader">Exportar CSV</Button>{' '}
         </>
     )
