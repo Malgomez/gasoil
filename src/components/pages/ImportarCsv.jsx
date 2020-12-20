@@ -3,6 +3,7 @@ import { Auth } from "../../objects/Auth";
 import HeaderLogin from './HeaderLogin';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/persax.css';
+import history from "../../routing/history";
 
 class ImportarCsv extends React.Component {
     constructor(props){
@@ -20,12 +21,20 @@ class ImportarCsv extends React.Component {
       window.location.href = './';
     }
   
+    handleMenuOnClick = () => {
+      history.push("/menu");
+    }
     componentDidMount() {
     }
     render() {
         return (
             <>
                 <HeaderLogin/>
+                <React.Fragment>
+                  <div>
+                    <input type="submit" className='buttonCenter' value="Menu" onClick={this.handleMenuOnClick}/>
+                  </div>
+                </React.Fragment>
             </>
         );
     }
