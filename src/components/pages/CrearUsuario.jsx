@@ -61,13 +61,11 @@ class CrearUsuario extends React.Component {
             url = Apiurl + "/users/all";
             await axios.get(url)
                 .then((response) => {
-                    //console.log(response)
                     let users = [];
                     response.data.forEach(element => {
                         users.push({ nombre: element.usuario, permiso: element.permiso });
                     })
                     this.setState({ nombreUsuario: users, usuario: null, permiso: null });
-                    //status = response.status;
                 })
                 .catch(function (error) {
                     console.log(error);
