@@ -2,7 +2,6 @@ import React from 'react';
 import { Auth } from "../../objects/Auth";
 import HeaderLogin from './HeaderLogin';
 import { Component } from "react";
-import Button from 'react-bootstrap/Button';
 import history from "../../routing/history";
 
 
@@ -31,17 +30,25 @@ class Menu extends Component {
   handleImportarOnClick = () => {
     history.push("/importarCsv");
   }
+
+  handleMatriculasOnClick = () => {
+    history.push('/matriculas');
+  }
   render() {
     return (
         <>
           <HeaderLogin/>
           {
             Auth.auth.getPermiso() === "administrador" ?
-              <Button variant="primary" className="buttonHeaderLeft" onClick={this.handleCreateUserOnClick}>Crear Usuario</Button>
+              <input type ="submit" className = "buttonCenter" value = "Crear Usuario" onClick={this.handleCreateUserOnClick}></input>
             : null
           }
-          <Button variant="primary" className="buttonHeader" onClick={this.handleImportarOnClick}>Importar CSV</Button>{' '}
-          <Button variant="primary" className="buttonHeader">Exportar CSV</Button>{' '}
+          {
+            Auth.auth.getPermiso() === "administrador" ?
+              <input type ="submit" className = "buttonCenter" value = "Matriculas" onClick={this.handleMatriculasOnClick}></input>
+              : null
+          }
+          <input type="submit" className="buttonCenter" value = "Tranformar Archívo" onClick={this.handleImportarOnClick}></input>
         </>
     )
   }

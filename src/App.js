@@ -5,7 +5,7 @@ import Menu from './components/pages/Menu';
 import history from "./routing/history";
 import CrearUsuario from './components/pages/CrearUsuario';
 import ImportarCsv from './components/pages/ImportarCsv';
-
+import Matriculas from './components/pages/Matriculas';
 
 function App() {
   return (
@@ -16,6 +16,7 @@ function App() {
             <Route exact path = "/menu" component={Menu}/>
             <Route exact path = "/crearUsuario" component={CrearUsuario}/>
             <Route exact path = "/importarCsv" component={ImportarCsv}/>
+            <Route exact path = "/matriculas" component={Matriculas}/>
           </Switch>
         </Router>
     </>

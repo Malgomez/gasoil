@@ -54,7 +54,7 @@ class ImportarCsv extends React.Component {
           nombreDelegacion: "PALENCIA"
         });
         break;
-      case 2: 
+      case 2:
         this.setState({
           nombreDelegacion: "SEVILLA"
         });
@@ -81,13 +81,13 @@ class ImportarCsv extends React.Component {
   componentDidMount() {
   }
 
-  handleConvertirOnClick = (e) => {
+  handleConvertirOnClick = async (e) => {
     if (document.ready > 0) {
-      var textToWrite = "";
+      let csvLines = [];
+      let url = Apiurl + "/listado";
       this.state.fileContent.forEach(element => {
         element[0] = element[0].replace("0000000000000", new Date().getFullYear() + document.ready + "00000000");
         element[6] = element[6].replace(",", ".");
-        let url = Apiurl + "/listado";
         let body = {
           delegacion: document.ready,
           numerolinea: element[0],
@@ -97,20 +97,46 @@ class ImportarCsv extends React.Component {
           matricula: element[4],
           surtidor: element[5],
           litros: element[6]
-        }
-        axios.post(url, body).then(async (response) => {
-          console.log("ok");
-        }).catch(function (error) {
-          console.log(error);
-        });
-        textToWrite += element[0] + ";" + element[1] + ";" + element[2] + ";" + element[3] + ";" + element[4] + ";" + element[5] + ";" + element[6].replace(".", ",") + "<br/>";
+        };
+        csvLines.push(body);
       });
-      let url = Apiurl + "/listado/guardarArchivo";
-      let body = textToWrite;
-      axios.get(url, body);
-      console.log(this.state.fileContent);
-      console.log(document.ready);
-      console.log(textToWrite);
+      let status = 0;
+      let reqBody = {
+        csvLines: csvLines 
+      }
+      //Guardar base de datos
+
+      await axios.post(url, reqBody).then(async (res) => {
+        status = res.status;
+      }).catch(function (error) {
+        console.log(error);
+      });
+      
+      if(status === 200){
+        reqBody = {
+          fileName: this.state.nombreArchivo,
+          csvLines: csvLines 
+        }
+        await axios.post(Apiurl + "/csvFile", reqBody,
+          {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }).then(res => {
+            this.setState({nombreArchivo: res.data}, async () => {
+              window.open(Apiurl + `/csvFile/${this.state.nombreArchivo}`);
+              await axios.delete(Apiurl + `/csvFile/${this.state.nombreArchivo}`).then(res => {
+                console.log(res.data)
+              }).catch(e => {
+                console.log(e);
+              })
+            })
+          }).catch(e => {
+            console.log(e);
+          })
+      }else{
+        alert("Ha habido un problema en el servidor. Por favor, contacte con el administrador");
+      }
     }
   }
   render() {

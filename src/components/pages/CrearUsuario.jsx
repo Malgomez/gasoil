@@ -33,8 +33,6 @@ class CrearUsuario extends React.Component {
     async componentDidMount() {
         let url = Apiurl + "/users/all";
         console.log(url);
-
-        console.log(url)
         await axios.get(url)
             .then((response) => {
                 let users = [];
